@@ -34,7 +34,6 @@ export const InputPage = ({ navigation }) => {
   async function handleSuccess() {
     setLoaded(false);
     const data = await sendTransaction(profile.id, sum, count);
-    console.log(data, profile.id, sum);
     if (data) {
       setLoaded(true);
       dispatch(setNewEmployeeData(data));
@@ -70,7 +69,6 @@ export const InputPage = ({ navigation }) => {
     let data = false;
     const newAmount = +amount.replace(/,/, ".");
     const newAmountAdditionalGood = +additionalGood.replace(/,/, ".");
-    console.log(newAmount, newAmountAdditionalGood);
     await axios
       .patch(
         `${account.adress}/api/proceed_transaction/`,
@@ -89,7 +87,6 @@ export const InputPage = ({ navigation }) => {
       })
       .catch(function (error) {
         // handle error
-        console.log(error.config);
       })
       .then(function () {
         // always executed

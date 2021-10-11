@@ -25,7 +25,6 @@ export const ProfilePage = ({ navigation }) => {
   function handleBack() {
     navigation.goBack();
   }
-  console.log(profile);
   return (
     <View style={styles.mainWrappe}>
       <View style={styles.headerWrapper}>

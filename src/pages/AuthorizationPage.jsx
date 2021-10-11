@@ -27,7 +27,6 @@ export const AuthorizationPage = ({ navigation }) => {
 
   useEffect(() => {
     if (account) {
-      console.log(account);
       navigation.navigate({ routeName: "Waiting" });
     }
   }, [account]);
@@ -102,7 +101,6 @@ async function Authorization(email, password, adress) {
     })
     .catch(function (error) {
       // handle error
-      console.log(error);
     })
     .then(function () {
       // always executed

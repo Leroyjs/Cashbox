@@ -51,7 +51,6 @@ export const WaitingPage = ({ navigation }) => {
       }
     }
     setId("");
-    console.log(focusState);
     focusState ? input.current.focus() : input.current.blur();
   }
   const storeData = async (value) => {

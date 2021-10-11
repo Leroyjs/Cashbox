@@ -24,10 +24,8 @@ export default function App() {
 const getData = async () => {
   try {
     const jsonValue = await AsyncStorage.getItem("@storage_Key");
-    console.log(jsonValue);
     return jsonValue != null ? JSON.parse(jsonValue) : null;
   } catch (e) {
-    console.log(e);
     // error reading value
   }
 };
