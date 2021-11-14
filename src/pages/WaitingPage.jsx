@@ -65,7 +65,7 @@ export const WaitingPage = ({ navigation }) => {
     let data = false;
     await axios
       .get(`${account.adress}/api/home?rfid_id=${id}`, {
-        headers: { Authorization: "tizol " + account.token },
+        headers: { "X-ZALUPA": "tizol " + account.token },
       })
       .then(function (response) {
         // handle success

@@ -21,12 +21,14 @@ export const InputSection = ({
   placeholder,
   keyboardType,
   isPassword,
+  isDisabled,
 }) => {
   return (
     <View style={styles.wrapper}>
       <TitleSection title={title} />
       <TextInput
-        value={value}
+        editable={!isDisabled}
+        value={value + " ₽"}
         onChangeText={onChange}
         placeholder={placeholder}
         keyboardType={keyboardType}
@@ -44,13 +46,13 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   input: {
-    borderStyle: "solid",
-    borderWidth: 1,
-    borderColor: "#999",
-    paddingHorizontal: isMobile ? 18 : 24,
-    paddingVertical: isMobile ? 14 : 22,
+    // borderStyle: "solid",
+    // borderWidth: 1,
+    // borderColor: "#999",
+    // paddingHorizontal: isMobile ? 18 : 24,
+    // paddingVertical: isMobile ? 14 : 22,
     borderRadius: isMobile ? 6 : 10,
-    fontSize: isMobile ? 20 : 28,
+    fontSize: isMobile ? 28 : 32,
     color: "#000",
   },
   inputError: {

@@ -37,5 +37,17 @@
       </intent-filter>
     </activity>
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity"/>
+    <service
+      android:name="com.evotor.services.integration.events.ReceiptDiscountService"
+      android:enabled="true">
+      <meta-data 
+        android:name="ru.evotor.sales_screen.BACKGROUND_COLOR"
+        android:value="#133788"
+      />
+      <intent-filter android:priority="20">
+        <category android:name="android.intent.category"/>
+        <action android:name="evo.v2.receipt.sell.receiptDiscount"/>
+      </intent-filter>
+    </service>
   </application>
 </manifest>

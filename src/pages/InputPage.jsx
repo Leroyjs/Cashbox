@@ -22,10 +22,11 @@ const isMobile = true;
 
 export const InputPage = ({ navigation }) => {
   const profile = useSelector((state) => state.profile);
+  const cost = useSelector((state) => state.cost);
   const [isLoaded, setLoaded] = useState(true);
   const dispatch = useDispatch();
   const account = useSelector((state) => state.account);
-  const [sum, setSum] = useState("");
+  const [sum, setSum] = useState(cost.toString());
   const [sumError, setSumError] = useState(false);
   const [count, setCount] = useState("0");
   function handleBack() {
@@ -59,7 +60,7 @@ export const InputPage = ({ navigation }) => {
     setSumError(error);
   }
   function handleSumChange(text) {
-    setSum(text);
+    // setSum(text);
   }
   function handleCountChange(text) {
     setCount("" + +text.replace(/[^0-9]/g, ""));
@@ -70,7 +71,7 @@ export const InputPage = ({ navigation }) => {
     const newAmount = +amount.replace(/,/, ".");
     const newAmountAdditionalGood = +additionalGood.replace(/,/, ".");
     await axios
-      .patch(
+      .put(
         `${account.adress}/api/proceed_transaction/`,
         {
           rfid_id: id.toString(),
@@ -78,7 +79,7 @@ export const InputPage = ({ navigation }) => {
           additional_good_amount: newAmountAdditionalGood,
         },
         {
-          headers: { Authorization: "tizol " + account.token },
+          headers: { "X-ZALUPA": "tizol " + account.token },
         }
       )
       .then(function (response) {
@@ -102,7 +103,8 @@ export const InputPage = ({ navigation }) => {
             <InputSection
               error={sumError}
               value={sum}
-              title="Сумма, ₽"
+              isDisabled={true}
+              title="Сумма"
               placeholder="Сумма заказа"
               keyboardType="number-pad"
               onChange={handleSumChange}

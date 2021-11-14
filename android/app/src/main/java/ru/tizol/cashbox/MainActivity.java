@@ -1,6 +1,7 @@
 package ru.tizol.cashbox;
 import android.content.res.Configuration;
 import android.content.Intent;
+import android.app.Activity;
 
 import android.os.Bundle;
 
@@ -48,13 +49,34 @@ public class MainActivity extends ReactActivity {
         return "main";
     }
 
+    private static class MyActivityDelegate extends ReactActivityDelegate {
+        private Bundle mInitialProps = null;
+        private final Activity mActivity;
+
+        public MyActivityDelegate(Activity activity, String mainComponentName) {
+            super(activity, mainComponentName);
+            this.mActivity = activity;
+        }
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            Bundle bundle = mActivity.getIntent().getExtras();
+            if (bundle != null && bundle.containsKey("receiptUuid") && bundle.containsKey("receiptCost") && bundle.containsKey("discount")) {
+                mInitialProps = new Bundle();
+                mInitialProps.putString("receiptUuid", bundle.getString("receiptUuid"));
+                mInitialProps.putDouble("receiptCost", bundle.getDouble("receiptCost"));
+                mInitialProps.putDouble("discount", bundle.getDouble("discount"));
+            }
+            super.onCreate(savedInstanceState);
+        }
+        @Override
+        protected Bundle getLaunchOptions() {
+            return mInitialProps;
+        }
+    }
+
     @Override
     protected ReactActivityDelegate createReactActivityDelegate() {
-        return new ReactActivityDelegate(this, getMainComponentName()) {
-            @Override
-            protected ReactRootView createRootView() {
-                return new RNGestureHandlerEnabledRootView(MainActivity.this);
-            }
-        };
+        return new MyActivityDelegate(this, getMainComponentName());
     }
 }

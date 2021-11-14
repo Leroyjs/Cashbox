@@ -83,7 +83,7 @@ async function Authorization(email, password, adress) {
   let data = false;
   let configAxios = {
     headers: {
-      Authorization: "tizol",
+      "X-ZALUPA": "tizol",
     },
   };
   await axios
@@ -115,6 +115,7 @@ const storeData = async (value) => {
     // saving error
   }
 };
+
 const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
