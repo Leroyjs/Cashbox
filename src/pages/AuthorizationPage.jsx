@@ -45,6 +45,7 @@ export const AuthorizationPage = ({ navigation }) => {
       setErrors(false);
     }
   }
+
   return (
     <View style={styles.mainWrapper}>
       <ScrollView style={styles.scrollView}>
@@ -83,9 +84,10 @@ async function Authorization(email, password, adress) {
   let data = false;
   let configAxios = {
     headers: {
-      "X-ZALUPA": "tizol",
+      "X-Custom-Auth": "bearer",
     },
   };
+
   await axios
     .post(
       `${adress}/api/login`,
@@ -105,12 +107,14 @@ async function Authorization(email, password, adress) {
     .then(function () {
       // always executed
     });
+
   return data;
 }
+
 const storeData = async (value) => {
   try {
     const jsonValue = JSON.stringify(value);
-    await AsyncStorage.setItem("@storage_Key", jsonValue);
+    await AsyncStorage.setItem("@account", jsonValue);
   } catch (e) {
     // saving error
   }

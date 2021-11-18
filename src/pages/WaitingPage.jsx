@@ -56,7 +56,7 @@ export const WaitingPage = ({ navigation }) => {
   const storeData = async (value) => {
     try {
       const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem("@storage_Key", jsonValue);
+      await AsyncStorage.setItem("@account", jsonValue);
     } catch (e) {
       // saving error
     }
@@ -65,7 +65,7 @@ export const WaitingPage = ({ navigation }) => {
     let data = false;
     await axios
       .get(`${account.adress}/api/home?rfid_id=${id}`, {
-        headers: { "X-ZALUPA": "tizol " + account.token },
+        headers: { "X-Custom-Auth": "bearer " + account.token },
       })
       .then(function (response) {
         // handle success
@@ -74,7 +74,7 @@ export const WaitingPage = ({ navigation }) => {
       })
       .catch(function (error) {
         // handle error
-        setError(error.response.data);
+        setError(error?.response?.data);
       })
       .then(function () {
         // always executed

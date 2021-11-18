@@ -14,11 +14,14 @@ import { call } from "react-native-reanimated";
 const errorHandler = (event) => (error) => console.log(event + error.message);
 const receiptDiscountListener = async (discount, receiptUuid, callback) => {
   const receipt = await ReceiptAPI.getReceiptByUuid(receiptUuid);
-  const cost = receipt
-    .getPositions()
-    .map((p) => p.price * p.quantity)
-    .reduce((acc, v) => acc + v, 0);
+  const cost =
+    receipt
+      .getPositions()
+      .map((p) => p.price * p.quantity)
+      .reduce((acc, v) => acc + v, 0) || 0;
   try {
+    const discount = parseInt(await AsyncStorage.getItem("discount")) || 0;
+
     await callback.startActivity(
       new Intent()
         .setClassName("ru.tizol.cashbox.MainActivity")
@@ -26,7 +29,7 @@ const receiptDiscountListener = async (discount, receiptUuid, callback) => {
         .putExtra("discount", discount)
         .putExtra("receiptCost", cost)
     );
-    const discount = parseInt(await AsyncStorage.getItem("discount"));
+
     await callback.onResult(new ReceiptDiscountEventResult(discount, null, []));
   } catch (err) {
     errorHandler(IntegrationServiceEventType.RECEIPT_DISCOUNT)(err);

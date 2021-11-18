@@ -44,7 +44,7 @@ export const HistoryPage = ({ navigation }) => {
     let data = false;
     await axios
       .get(`${account.adress}/api/history?rfid_id=${id}`, {
-        headers: { "X-ZALUPA": "tizol " + account.token },
+        headers: { "X-Custom-Auth": "bearer " + account.token },
       })
       .then(function (response) {
         // handle success
