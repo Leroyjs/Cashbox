@@ -55,7 +55,7 @@ export const ProfilePage = ({ navigation }) => {
         </View>
       </ScrollView>
       <View style={styles.buttonWrapper}>
-        <Button onPress={handleNext}>ВВЕСТИ СУММУ ЗАКАЗА</Button>
+        {/* <Button onPress={handleNext}>ВВЕСТИ СУММУ ЗАКАЗА</Button> */}
       </View>
     </View>
   );
