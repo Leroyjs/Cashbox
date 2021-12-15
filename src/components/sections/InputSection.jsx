@@ -21,16 +21,30 @@ export const InputSection = ({
   placeholder,
   keyboardType,
   isPassword,
+  isDisabled,
 }) => {
   return (
     <View style={styles.wrapper}>
       <TitleSection title={title} />
       <TextInput
-        value={value}
+        editable={!isDisabled}
+        value={isDisabled ? value + " ₽" : value}
         onChangeText={onChange}
         placeholder={placeholder}
         keyboardType={keyboardType}
-        style={error ? { ...styles.input, ...styles.inputError } : styles.input}
+        style={
+          isDisabled
+            ? error
+              ? { ...styles.input, ...styles.inputError }
+              : styles.input
+            : error
+            ? {
+                ...styles.input,
+                ...styles.inputError,
+                ...styles.inputNotDisabled,
+              }
+            : { ...styles.input, ...styles.inputNotDisabled }
+        }
         secureTextEntry={isPassword}
       />
       <View style={styles.errorWrapper}>
@@ -39,18 +53,21 @@ export const InputSection = ({
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   wrapper: {
     position: "relative",
   },
-  input: {
+  inputNotDisabled: {
     borderStyle: "solid",
     borderWidth: 1,
     borderColor: "#999",
     paddingHorizontal: isMobile ? 18 : 24,
     paddingVertical: isMobile ? 14 : 22,
+  },
+  input: {
     borderRadius: isMobile ? 6 : 10,
-    fontSize: isMobile ? 20 : 28,
+    fontSize: isMobile ? 28 : 32,
     color: "#000",
   },
   inputError: {

@@ -27,7 +27,6 @@ export const AuthorizationPage = ({ navigation }) => {
 
   useEffect(() => {
     if (account) {
-      console.log(account);
       navigation.navigate({ routeName: "Waiting" });
     }
   }, [account]);
@@ -46,6 +45,7 @@ export const AuthorizationPage = ({ navigation }) => {
       setErrors(false);
     }
   }
+
   return (
     <View style={styles.mainWrapper}>
       <ScrollView style={styles.scrollView}>
@@ -84,9 +84,10 @@ async function Authorization(email, password, adress) {
   let data = false;
   let configAxios = {
     headers: {
-      Authorization: "tizol",
+      "X-Custom-Auth": "bearer",
     },
   };
+
   await axios
     .post(
       `${adress}/api/login`,
@@ -102,21 +103,23 @@ async function Authorization(email, password, adress) {
     })
     .catch(function (error) {
       // handle error
-      console.log(error);
     })
     .then(function () {
       // always executed
     });
+
   return data;
 }
+
 const storeData = async (value) => {
   try {
     const jsonValue = JSON.stringify(value);
-    await AsyncStorage.setItem("@storage_Key", jsonValue);
+    await AsyncStorage.setItem("@account", jsonValue);
   } catch (e) {
     // saving error
   }
 };
+
 const styles = StyleSheet.create({
   scrollView: {
     flex: 1,

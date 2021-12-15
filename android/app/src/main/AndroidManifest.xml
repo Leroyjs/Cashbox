@@ -1,0 +1,53 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="ru.tizol.cashbox">
+  <uses-permission android:name="android.permission.INTERNET"/>
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+  <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+  <uses-permission android:name="android.permission.VIBRATE"/>
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+  <application android:name=".MainApplication" android:label="@string/app_name" android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher_round" android:allowBackup="true" android:theme="@style/AppTheme" android:usesCleartextTraffic="true">
+    <meta-data android:name="app_uuid" android:value="0219ea38-c6f7-4bf4-850b-76f4b69c205c"/>
+    <meta-data android:name="expo.modules.updates.ENABLED" android:value="true"/>
+    <meta-data android:name="expo.modules.updates.EXPO_SDK_VERSION" android:value="42.0.0"/>
+    <meta-data android:name="expo.modules.updates.EXPO_UPDATES_CHECK_ON_LAUNCH" android:value="ALWAYS"/>
+    <meta-data android:name="expo.modules.updates.EXPO_UPDATES_LAUNCH_WAIT_MS" android:value="0"/>
+    <meta-data android:name="expo.modules.updates.EXPO_UPDATE_URL" android:value="https://exp.host/@nkoltashov/tizol"/>
+    <activity 
+      android:name=".MainActivity" 
+      android:label="@string/app_name" 
+      android:icon="@mipmap/ic_launcher"
+      android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode" 
+      android:launchMode="singleTask" 
+      android:windowSoftInputMode="adjustResize" 
+      android:theme="@style/Theme.App.SplashScreen" 
+      android:screenOrientation="portrait">
+      <meta-data
+        android:name="ru.evotor.launcher.BACKGROUND_COLOR"
+        android:value="#133788" />
+      <intent-filter>
+        <!-- Указывает, что иконка приложения заменит кнопку Продажа на главном экране смарт-терминала. -->
+        <action android:name="android.intent.action.MAIN" />
+
+        <category android:name="android.intent.category.EVOTOR" />
+      </intent-filter>
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <data android:scheme="ru.tizol.cashbox"/>
+      </intent-filter>
+    </activity>
+    <activity android:name="com.facebook.react.devsupport.DevSettingsActivity"/>
+    <service
+      android:name="com.evotor.services.integration.events.ReceiptDiscountService"
+      android:enabled="true">
+      <meta-data 
+        android:name="ru.evotor.sales_screen.BACKGROUND_COLOR"
+        android:value="#133788"
+      />
+      <intent-filter android:priority="20">
+        <category android:name="android.intent.category"/>
+        <action android:name="evo.v2.receipt.sell.receiptDiscount"/>
+      </intent-filter>
+    </service>
+  </application>
+</manifest>

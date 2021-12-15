@@ -25,7 +25,6 @@ export const ProfilePage = ({ navigation }) => {
   function handleBack() {
     navigation.goBack();
   }
-  console.log(profile);
   return (
     <View style={styles.mainWrappe}>
       <View style={styles.headerWrapper}>
@@ -56,7 +55,7 @@ export const ProfilePage = ({ navigation }) => {
         </View>
       </ScrollView>
       <View style={styles.buttonWrapper}>
-        <Button onPress={handleNext}>ВВЕСТИ СУММУ ЗАКАЗА</Button>
+        {/* <Button onPress={handleNext}>ВВЕСТИ СУММУ ЗАКАЗА</Button> */}
       </View>
     </View>
   );

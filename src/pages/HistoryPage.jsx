@@ -44,16 +44,14 @@ export const HistoryPage = ({ navigation }) => {
     let data = false;
     await axios
       .get(`${account.adress}/api/history?rfid_id=${id}`, {
-        headers: { Authorization: "tizol " + account.token },
+        headers: { "X-Custom-Auth": "bearer " + account.token },
       })
       .then(function (response) {
         // handle success
         data = response.data;
-        console.log(response.data);
       })
       .catch(function (error) {
         // handle error
-        console.log(error);
       })
       .then(function () {
         // always executed

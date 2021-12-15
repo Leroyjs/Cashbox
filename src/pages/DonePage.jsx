@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { StyleSheet, Text, View, TextInput } from "react-native";
+import { StyleSheet, Text, View, TextInput, BackHandler } from "react-native";
 import { useFocusEffect } from "react-navigation-hooks";
 import { useSelector } from "react-redux";
 import { Icon } from "../components/common/Icon";
@@ -11,7 +11,8 @@ export const DonePage = ({ navigation }) => {
   useFocusEffect(
     useCallback(() => {
       setTimeout(() => {
-        navigation.navigate("Waiting");
+        // navigation.navigate("Waiting");
+        BackHandler.exitApp();
       }, 3000);
     }, [])
   );

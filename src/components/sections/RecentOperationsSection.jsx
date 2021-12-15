@@ -11,7 +11,6 @@ export const RecentOperationsSection = ({ list, units }) => {
   function handlePress() {
     navigate("History");
   }
-  console.log(units);
   return (
     <>
       <TitleSection

@@ -34,6 +34,7 @@ export const WaitingPage = ({ navigation }) => {
     }, [])
   );
   function handleLogOut() {
+    console.log("logout");
     dispatch(logOut());
     storeData(false);
     navigation.navigate({ routeName: "Authorization" });
@@ -51,13 +52,12 @@ export const WaitingPage = ({ navigation }) => {
       }
     }
     setId("");
-    console.log(focusState);
     focusState ? input.current.focus() : input.current.blur();
   }
   const storeData = async (value) => {
     try {
       const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem("@storage_Key", jsonValue);
+      await AsyncStorage.setItem("@account", jsonValue);
     } catch (e) {
       // saving error
     }
@@ -66,16 +66,22 @@ export const WaitingPage = ({ navigation }) => {
     let data = false;
     await axios
       .get(`${account.adress}/api/home?rfid_id=${id}`, {
-        headers: { Authorization: "tizol " + account.token },
+        headers: { "X-Custom-Auth": "bearer " + account.token },
       })
       .then(function (response) {
         // handle success
         data = response.data;
+        console.log(data);
         data = { ...data, id };
       })
       .catch(function (error) {
         // handle error
-        setError(error.response.data);
+        if (error?.response?.status === 403) {
+          handleLogOut();
+
+          return false;
+        }
+        setError(error?.response?.data);
       })
       .then(function () {
         // always executed
@@ -102,7 +108,9 @@ export const WaitingPage = ({ navigation }) => {
           <View style={styles.contentWrapper}>
             <Icon icon={icon} color={color} />
             <Text style={styles.mainText}>Приложите пропуск</Text>
-            {hasError && <Text style={styles.error}>{hasError}</Text>}
+            {hasError && (
+              <Text style={styles.error}>{hasError.toString()}</Text>
+            )}
           </View>
           <View style={styles.buttonWrapper}>
             <Button onPress={handleLogOut} isGray={true}>

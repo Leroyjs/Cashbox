@@ -22,19 +22,21 @@ const isMobile = true;
 
 export const InputPage = ({ navigation }) => {
   const profile = useSelector((state) => state.profile);
+  const cost = useSelector((state) => state.cost);
   const [isLoaded, setLoaded] = useState(true);
   const dispatch = useDispatch();
   const account = useSelector((state) => state.account);
-  const [sum, setSum] = useState("");
+  const [sum, setSum] = useState(cost.toString());
   const [sumError, setSumError] = useState(false);
   const [count, setCount] = useState("0");
+  const isDefault = !+cost;
+
   function handleBack() {
     navigation.goBack();
   }
   async function handleSuccess() {
     setLoaded(false);
     const data = await sendTransaction(profile.id, sum, count);
-    console.log(data, profile.id, sum);
     if (data) {
       setLoaded(true);
       dispatch(setNewEmployeeData(data));
@@ -51,16 +53,16 @@ export const InputPage = ({ navigation }) => {
         sum - profile.employeeData.account.current_balance
       } ₽`;
     }
-    // if (!sum) {
-    //   error = "Поле обязательно для заполнения";
-    // }
+    if (!sum) {
+      error = "Поле обязательно для заполнения";
+    }
     if (!error) {
       handleSuccess();
     }
     setSumError(error);
   }
   function handleSumChange(text) {
-    setSum(text);
+    setSum((+text).toString());
   }
   function handleCountChange(text) {
     setCount("" + +text.replace(/[^0-9]/g, ""));
@@ -70,9 +72,9 @@ export const InputPage = ({ navigation }) => {
     let data = false;
     const newAmount = +amount.replace(/,/, ".");
     const newAmountAdditionalGood = +additionalGood.replace(/,/, ".");
-    console.log(newAmount, newAmountAdditionalGood);
+
     await axios
-      .patch(
+      .put(
         `${account.adress}/api/proceed_transaction/`,
         {
           rfid_id: id.toString(),
@@ -80,7 +82,7 @@ export const InputPage = ({ navigation }) => {
           additional_good_amount: newAmountAdditionalGood,
         },
         {
-          headers: { Authorization: "tizol " + account.token },
+          headers: { "X-Custom-Auth": "bearer " + account.token },
         }
       )
       .then(function (response) {
@@ -89,7 +91,7 @@ export const InputPage = ({ navigation }) => {
       })
       .catch(function (error) {
         // handle error
-        console.log(error.config);
+        console.log(error);
       })
       .then(function () {
         // always executed
@@ -105,7 +107,8 @@ export const InputPage = ({ navigation }) => {
             <InputSection
               error={sumError}
               value={sum}
-              title="Сумма, ₽"
+              isDisabled={!isDefault}
+              title="Сумма"
               placeholder="Сумма заказа"
               keyboardType="number-pad"
               onChange={handleSumChange}
